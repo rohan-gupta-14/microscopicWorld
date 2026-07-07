@@ -891,8 +891,16 @@ class LayoutEditor {
    *         copy(localStorage.getItem('microbial_card_layout'))
    *     then paste the object below (keys are microbe ids from microbes.json).
    *
+   *  RESOLUTION: the numbers below are authored for a REFERENCE screen of
+   *  DEFAULT_LAYOUT_REF_WIDTH × DEFAULT_LAYOUT_REF_HEIGHT (a 1080p 16:9 panel).
+   *  At runtime they are scaled to the actual viewport and clamped on-screen,
+   *  so every card stays visible on laptops, 4K panels, etc.
+   *
    *  Each entry: { x, y, width, rotation }  (pixels / degrees, top-left anchor)
    * ------------------------------------------------------------------- */
+  static DEFAULT_LAYOUT_REF_WIDTH  = 1920;
+  static DEFAULT_LAYOUT_REF_HEIGHT = 1080;
+
   static DEFAULT_CARD_LAYOUT = {
     'thermus-aquaticus':             { x: 48,   y: 8,   width: 235, rotation: 180 },
     'colwellia-psychrerythraea':     { x: 790,  y: 8,   width: 245, rotation: 180 },
@@ -926,7 +934,34 @@ class LayoutEditor {
     // Priority: saved (localStorage) → baked-in default → null (auto-compute)
     const saved = this.loadCardLayout();
     if (saved && Object.prototype.hasOwnProperty.call(saved, id)) return saved[id];
-    return LayoutEditor.DEFAULT_CARD_LAYOUT[id] ?? null;
+    return this._scaledDefault(id);
+  }
+
+  /**
+   * Returns the baked-in DEFAULT_CARD_LAYOUT entry for a microbe, scaled from
+   * the reference resolution to the current viewport and clamped so the whole
+   * card stays on-screen. This keeps all cards visible on any screen size.
+   * Saved (admin) layouts are used as-is — only the code default is scaled.
+   */
+  _scaledDefault(id) {
+    const d = LayoutEditor.DEFAULT_CARD_LAYOUT[id];
+    if (!d) return null;
+
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const scale = vw / LayoutEditor.DEFAULT_LAYOUT_REF_WIDTH;
+
+    const width = Math.round(d.width * scale);
+    // Conservative height estimate for clamping (cards are content-sized).
+    const approxH = Math.round(200 * scale);
+    const margin  = 8;
+
+    let x = Math.round(d.x * scale);
+    let y = Math.round(d.y * scale);
+    x = Math.max(margin, Math.min(x, vw - width   - margin));
+    y = Math.max(margin, Math.min(y, vh - approxH - margin));
+
+    return { x, y, width, rotation: d.rotation };
   }
 
   open() {
@@ -962,7 +997,7 @@ class LayoutEditor {
       this._videoPreviews.push(this._buildVideoPreview(m, screenPos.x, screenPos.y, color));
 
       // Draggable card item — saved layout wins, then baked-in default, then auto-compute
-      const s        = saved[m.id] ?? LayoutEditor.DEFAULT_CARD_LAYOUT[m.id];
+      const s        = saved[m.id] ?? this._scaledDefault(m.id);
       const x        = s?.x        ?? Math.max(8, screenPos.x - defaultWidth / 2);
       const y        = s?.y        ?? Math.max(64, Math.min(screenPos.y - 110, window.innerHeight - 220));
       const width    = s?.width    ?? defaultWidth;
