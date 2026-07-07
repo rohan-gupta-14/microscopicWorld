@@ -1,0 +1,90 @@
+[
+  {
+    "id": "thermus-aquaticus",
+    "name": "Thermus aquaticus",
+    "scientificName": "Thermus aquaticus",
+    "latitude": 44.428,
+    "longitude": -110.5885,
+    "habitat": "Hot Springs",
+    "country": "United States",
+    "location": "Yellowstone National Park, Wyoming",
+    "description": "A heat-loving bacterium from Yellowstone's hot springs whose Taq enzyme revolutionized PCR technology, transforming genetics, forensics, and medical diagnostics worldwide."
+  },
+  {
+    "id": "pyrolobus-fumarii",
+    "name": "Pyrolobus fumarii",
+    "scientificName": "Pyrolobus fumarii",
+    "latitude": 18.372,
+    "longitude": -81.799,
+    "habitat": "Deep-Sea Hydrothermal Vent",
+    "country": "International Waters / Caribbean Sea",
+    "location": "Von Damm Hydrothermal Field, Mid-Cayman Rise",
+    "description": "A deep-sea archaeon thriving at 113°C near the Von Damm hydrothermal vents on the Mid-Cayman Rise, holding one of the highest known temperature records for any living organism."
+  },
+  {
+    "id": "halobacterium-salinarum",
+    "name": "Halobacterium salinarum",
+    "scientificName": "Halobacterium salinarum",
+    "latitude": -35.35,
+    "longitude": 143.16,
+    "habitat": "Hypersaline Lake",
+    "country": "Australia",
+    "location": "Lake Tyrrell, Victoria, Australia",
+    "description": "A salt-loving archaeon thriving in Australia's Lake Tyrrell, harvesting sunlight through bacteriorhodopsin — a unique pigment-based energy system requiring no chlorophyll at all."
+  },
+  {
+    "id": "colwellia-psychrerythraea",
+    "name": "Colwellia psychrerythraea",
+    "scientificName": "Colwellia psychrerythraea",
+    "latitude": 73.5,
+    "longitude": -47.0,
+    "habitat": "Arctic Ocean Marine Sediments",
+    "country": "Canada / International Waters",
+    "location": "Arctic Basin, North of Canadian Arctic Archipelago",
+    "description": "A cold-loving bacterium from the Arctic Basin's icy marine sediments north of Canada that remains metabolically active below -10°C, modeling how life might survive on icy ocean worlds like Europa."
+  },
+  {
+    "id": "acidithiobacillus-ferrooxidans",
+    "name": "Acidithiobacillus ferrooxidans",
+    "scientificName": "Acidithiobacillus ferrooxidans",
+    "latitude": 43.5,
+    "longitude": 103.5,
+    "habitat": "Acid Mine Drainage",
+    "country": "Mongolia / China",
+    "location": "Gobi Desert, Mongolia",
+    "description": "An acid-loving bacterium from the Gobi Desert's mining regions that oxidizes iron and sulfur for energy, studied as a Mars analogue and used commercially in biomining operations across Central Asia."
+  },
+  {
+    "id": "deinococcus-radiodurans",
+    "name": "Deinococcus radiodurans",
+    "scientificName": "Deinococcus radiodurans",
+    "latitude": 51.389,
+    "longitude": 30.098,
+    "habitat": "Nuclear Exclusion Zone",
+    "country": "Ukraine",
+    "location": "Chernobyl Exclusion Zone, Pripyat, Ukraine",
+    "description": "Earth's most radiation-resistant bacterium, found in Chernobyl's exclusion zone, capable of reassembling its completely shattered genome within hours of lethal radiation exposure."
+  },
+  {
+    "id": "chroococcidiopsis",
+    "name": "Chroococcidiopsis",
+    "scientificName": "Chroococcidiopsis sp.",
+    "latitude": -23.8634,
+    "longitude": -69.1328,
+    "habitat": "Hyper-Arid Desert",
+    "country": "Chile",
+    "location": "Atacama Desert, Chile",
+    "description": "A cyanobacterium living inside Atacama Desert rocks, using stone as a UV shield while photosynthesizing — considered the closest Earth analogue to potential life on Mars."
+  },
+  {
+    "id": "halomonas-campisalis",
+    "name": "Halomonas campisalis",
+    "scientificName": "Halomonas campisalis",
+    "latitude": 0.33,
+    "longitude": 36.10,
+    "habitat": "Alkaline Soda Lake",
+    "country": "Kenya",
+    "location": "Lake Bogoria, Baringo County, Kenya",
+    "description": "A salt- and alkali-loving bacterium from Kenya's Lake Bogoria, surviving at pH 10.5 where extreme alkalinity and high salinity would destroy almost any other cell."
+  }
+]

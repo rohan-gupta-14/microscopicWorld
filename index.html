@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+  <meta name="description" content="Microbial World Explorer — An interactive museum exhibit revealing Earth's most extreme microorganisms. Discover extremophiles from Yellowstone to Antarctica.">
+  <title>Where do they live</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ============================================= -->
+  <!-- FULL-SCREEN APPLICATION CONTAINER             -->
+  <!-- ============================================= -->
+  <div id="app-container">
+
+    <!-- Animated particle background canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Multi-user circle interaction overlay -->
+    <canvas id="circle-canvas"></canvas>
+
+    <!-- Virtual lens controls -->
+    <div id="virtual-lens-controls" class="hidden">
+      <button id="virtual-lens-add" type="button" aria-label="Add virtual lens" title="Add virtual lens">+</button>
+    </div>
+
+    <!-- World map background -->
+    <div id="world-map">
+      <img id="map-image" src="assets/map/world-map.png" alt="World Map" draggable="false">
+
+      <!-- Habitat markers rendered dynamically -->
+      <div id="habitat-markers"></div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- TITLE OVERLAY — Minimal, elegant, centered    -->
+    <!-- ============================================= -->
+    <div id="title-overlay">
+      <div id="title-content">
+        
+        <h1 id="main-title">Explore the Hidden World of Microorganisms</h1>
+        <p id="subtitle">Gather around — place the circular lens on the map to explore</p>
+        
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- MICROSCOPE LENS — Created dynamically         -->
+    <!-- ============================================= -->
+    <div id="microscope-lens" class="hidden">
+      <div id="lens-inner"></div>
+      <div id="lens-glow"></div>
+      <div id="lens-label">
+        <span id="lens-lat">0.00°</span>
+        <span id="lens-separator">·</span>
+        <span id="lens-lng">0.00°</span>
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- HABITAT HIGHLIGHT — Pulsing ring on discovery -->
+    <!-- ============================================= -->
+    <div id="habitat-highlight" class="hidden">
+      <div class="highlight-ring ring-1"></div>
+      <div class="highlight-ring ring-2"></div>
+      <div class="highlight-ring ring-3"></div>
+    </div>
+
+
+   
+   
+
+    <!-- ============================================= -->
+    <!-- CIRCLE IMAGE — Bacteria photo fills the circle -->
+    <!-- ============================================= -->
+    <div id="circle-image-wrap" class="hidden">
+      <video id="circle-video" muted loop playsinline preload="auto" aria-label="Microorganism video"></video>
+      <div id="circle-img-vignette"></div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- ABOUT PANEL — Beside the circle               -->
+    <!-- ============================================= -->
+    <div id="about-panel-wrapper" class="hidden">
+      <div id="about-panel">
+        <button id="about-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+        <div id="about-header">
+          <span id="about-badge"></span>
+          <h2 id="about-name"></h2>
+          <p id="about-scientific"></p>
+        </div>
+        <div id="about-body">
+          <p id="about-desc"></p>
+          <p id="about-location"><span id="about-loc-name"></span><span id="about-loc-country"></span></p>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
