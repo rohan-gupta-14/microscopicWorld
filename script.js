@@ -870,6 +870,40 @@ class LayoutEditor {
   static CARD_STORAGE_KEY = 'microbial_card_layout';
   static CARD_BACKUP_KEY  = 'microbial_card_layout_backup';
 
+  /* ---------------------------------------------------------------------
+   *  DEFAULT CARD LAYOUT  (baked into the code — the "factory" positions)
+   * ---------------------------------------------------------------------
+   *  These positions are used whenever a browser/kiosk has NO saved layout
+   *  in localStorage (fresh machine, cleared storage, different browser).
+   *  They guarantee the cards always start in the intended arrangement and
+   *  never fall back to auto-computed positions.
+   *
+   *  Priority order when placing a card:
+   *     1. localStorage (set via the Layout Editor → "Save Layout")
+   *     2. DEFAULT_CARD_LAYOUT below
+   *     3. auto-computed fallback (only if a microbe is missing from both)
+   *
+   *  HOW TO UPDATE (admin):
+   *     Open the Layout Editor (Ctrl + →), arrange the cards, click
+   *     "Save Layout". That writes to localStorage. To make it the permanent
+   *     factory default on every machine, copy the saved JSON and paste it
+   *     here. Get the JSON by running this in the browser console (F12):
+   *         copy(localStorage.getItem('microbial_card_layout'))
+   *     then paste the object below (keys are microbe ids from microbes.json).
+   *
+   *  Each entry: { x, y, width, rotation }  (pixels / degrees, top-left anchor)
+   * ------------------------------------------------------------------- */
+  static DEFAULT_CARD_LAYOUT = {
+    'thermus-aquaticus':             { x: 48,   y: 8,   width: 235, rotation: 180 },
+    'colwellia-psychrerythraea':     { x: 790,  y: 8,   width: 245, rotation: 180 },
+    'deinococcus-radiodurans':       { x: 1227, y: 85,  width: 178, rotation: 180 },
+    'acidithiobacillus-ferrooxidans':{ x: 1615, y: 68,  width: 215, rotation: 180 },
+    'pyrolobus-fumarii':             { x: 200,  y: 415, width: 220, rotation: 180 },
+    'chroococcidiopsis':             { x: 697,  y: 672, width: 205, rotation: 0   },
+    'halomonas-campisalis':          { x: 1268, y: 505, width: 200, rotation: 0   },
+    'halobacterium-salinarum':       { x: 1648, y: 843, width: 200, rotation: 270 },
+  };
+
   constructor(dataManager, mapManager) {
     this._data          = dataManager;
     this._map           = mapManager;
@@ -889,7 +923,10 @@ class LayoutEditor {
   }
 
   getSavedCard(id) {
-    return this.loadCardLayout()[id] ?? null;
+    // Priority: saved (localStorage) → baked-in default → null (auto-compute)
+    const saved = this.loadCardLayout();
+    if (saved && Object.prototype.hasOwnProperty.call(saved, id)) return saved[id];
+    return LayoutEditor.DEFAULT_CARD_LAYOUT[id] ?? null;
   }
 
   open() {
@@ -924,8 +961,8 @@ class LayoutEditor {
       // Non-interactive video circle at map position (reference only)
       this._videoPreviews.push(this._buildVideoPreview(m, screenPos.x, screenPos.y, color));
 
-      // Draggable card item
-      const s        = saved[m.id];
+      // Draggable card item — saved layout wins, then baked-in default, then auto-compute
+      const s        = saved[m.id] ?? LayoutEditor.DEFAULT_CARD_LAYOUT[m.id];
       const x        = s?.x        ?? Math.max(8, screenPos.x - defaultWidth / 2);
       const y        = s?.y        ?? Math.max(64, Math.min(screenPos.y - 110, window.innerHeight - 220));
       const width    = s?.width    ?? defaultWidth;
@@ -950,10 +987,17 @@ class LayoutEditor {
     // Write new layout from editor state
     const layout = {};
     for (const [id, state] of this._items) {
-      layout[id] = { x: state.x, y: state.y, width: state.width, rotation: state.rotation };
+      layout[id] = { x: Math.round(state.x), y: Math.round(state.y), width: Math.round(state.width), rotation: Math.round(state.rotation) };
     }
-    try { localStorage.setItem(LayoutEditor.CARD_STORAGE_KEY, JSON.stringify(layout)); }
+    const json = JSON.stringify(layout);
+    try { localStorage.setItem(LayoutEditor.CARD_STORAGE_KEY, json); }
     catch (e) { console.warn('[LayoutEditor] Save failed:', e); }
+
+    // Convenience for the admin: log + copy the JSON so it can be pasted into
+    // LayoutEditor.DEFAULT_CARD_LAYOUT to make it the permanent factory default.
+    console.log('[LayoutEditor] Saved layout (paste into DEFAULT_CARD_LAYOUT to bake in):\n' + JSON.stringify(layout, null, 2));
+    try { navigator.clipboard?.writeText(json); } catch (_) {}
+
     this.close();
   }
 
